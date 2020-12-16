@@ -9,6 +9,12 @@ const init = async () => {
         host: "localhost"
     });
 
+    await server.register({
+        plugin: require('hapi-geo-locate'),
+        options: {
+            enabledByDefault: false
+        }
+    });
 
     server.route([
         {
@@ -50,13 +56,26 @@ const init = async () => {
             }
         },
         {
+            method: 'GET',
+            path: '/location',
+            handler: (request, h) => {
+                const location = request.location;
+                console.log(location);
+                if (location) {
+                    return "Your location is " + location.ip;
+                } else {
+                    return "Your location is not enabled by default.";
+                }
+                
+            }
+        },
+        {
             method: '*',
             path: '/{any*}',
             handler: (request, h) => {
                 return "<h1>You must be lost!</h1>";
             }
         }
-
     ]);
 
     await server.start();
@@ -64,7 +83,7 @@ const init = async () => {
 };
 
 process.on('unhandledRejection', (err) => {
-    console.log("soccer\n" + err);
+    console.log(err);
     process.exit(1);
 });
 

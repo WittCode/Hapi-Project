@@ -1,27 +1,42 @@
 'use strict'
 
 const Hapi = require('@hapi/hapi');
+const Path = require('path');
 
 const init = async () => {
 
     const server = Hapi.server({
         port: 1234,
-        host: "localhost"
+        host: "localhost",
+        routes: {
+            files: {
+                relativeTo: Path.join(__dirname, 'static')
+            }
+        }
     });
 
-    await server.register({
+    await server.register([
+    {
         plugin: require('hapi-geo-locate'),
         options: {
             enabledByDefault: false
         }
-    });
+    },
+    {
+        plugin: require('@hapi/inert')
+    }
+    ]);
 
     server.route([
         {
             method: 'GET',
             path: '/',
             handler: (request, h) => {
-                return "<h1>Welcome to my website!</h1>";
+                console.log(request);
+                return h.file("welcome.html", {
+                    mode: 'inline',
+                    filename: 'welcome_inline.html'
+                });
             }
         },
         {

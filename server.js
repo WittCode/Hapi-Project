@@ -44,7 +44,6 @@ const init = async () => {
             method: 'GET',
             path: '/',
             handler: (request, h) => {
-                console.log(request);
                 return h.file("welcome.html", {
                     mode: 'inline',
                     filename: 'welcome_inline.html'

@@ -1,34 +1,21 @@
-'use strict'
+'use strict';
 
 const Handlebars = require('handlebars');
 const Hapi = require('@hapi/hapi');
-const Path = require('path');
+const Path = require('path')
+const routes = require('./routes');
 
-const init = async () => {
+const init = async() => {
 
     const server = Hapi.server({
         port: 1234,
-        host: "localhost",
-        routes: {
-            files: {
-                relativeTo: Path.join(__dirname, 'static')
-            }
-        }
+        host: 'localhost'
     });
 
     await server.register([
-    {
-        plugin: require('hapi-geo-locate'),
-        options: {
-            enabledByDefault: false
+        {
+            plugin: require('@hapi/vision')
         }
-    },
-    {
-        plugin: require('@hapi/inert')
-    },
-    {
-        plugin: require('@hapi/vision')
-    }
     ]);
 
     server.views({
@@ -37,94 +24,13 @@ const init = async () => {
         },
         path: Path.join(__dirname, 'views'),
         layout: 'default'
-    })
+    });   
 
-    server.route([
-        {
-            method: 'GET',
-            path: '/',
-            handler: (request, h) => {
-                return h.file("welcome.html", {
-                    mode: 'inline',
-                    filename: 'welcome_inline.html'
-                });
-            }
-        },
-        {
-            method: 'GET',
-            path: '/welcome',
-            handler: (request, h) => {
-                return h.view('welcome');
-            }
-        },
-        {
-            method: 'GET',
-            path: '/dynamic',
-            handler: (request, h) => {
-                const data = {
-                    name: "Tom",
-                    message: "It is great to have you here!"
-                }
-                return h.view('user', data)
-            }
-        },
-        {
-            method: 'GET',
-            path: '/users/{user?}',
-            handler: (request, h) => {
-                if (request.params.user) {
-                    return `<h1>Hello ${request.params.user}</h1>`;
-                } else {
-                    return "<h1>Hello Stranger!</h1>";
-                }
-
-            }
-        },
-        {
-            method: 'GET',
-            path: '/queryParams',
-            handler: (request, h) => {
-                if (request.query.firstName && request.query.lastName) {
-                    let { firstName, lastName } = request.query;
-                    return `<h1>Hello ${firstName} ${lastName}!`;
-                } else {
-                    return '<h1>Who are you?</h1>'
-                }
-            }
-        },
-        {
-            method: 'GET',
-            path: '/redirectMe',
-            handler: (request, h) => {
-                return h.redirect('/');
-            }
-        },
-        {
-            method: 'GET',
-            path: '/location',
-            handler: (request, h) => {
-                const location = request.location;
-                console.log(location);
-                if (location) {
-                    return "Your location is " + location.ip;
-                } else {
-                    return "Your location is not enabled by default.";
-                }
-                
-            }
-        },
-        {
-            method: '*',
-            path: '/{any*}',
-            handler: (request, h) => {
-                return "<h1>You must be lost!</h1>";
-            }
-        }
-    ]);
-
+    server.route(routes);
+    
     await server.start();
-    console.log("Listening on " + server.info.uri);
-};
+
+}
 
 process.on('unhandledRejection', (err) => {
     console.log(err);

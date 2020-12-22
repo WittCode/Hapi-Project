@@ -2,6 +2,10 @@
 <html>
 <head>
 <style>
+body {
+    margin: 0;
+}
+
 ul {
   list-style-type: none;
   margin: 0;
@@ -22,20 +26,23 @@ li a {
   text-decoration: none;
 }
 
-li a:hover {
+li a:hover:not(.active) {
   background-color: #111;
+}
+
+.active {
+  background-color: #4CAF50;
 }
 </style>
 </head>
 <body>
 
 <ul>
-  <li><a class="active" href="/location">Home</a></li>
-  <li><a href="#news">News</a></li>
-  <li><a href="#contact">Contact</a></li>
-  <li><a href="#about">About</a></li>
+  <li><a class="active" href="/">Home</a></li>
+  <li><a href="/me">Me</a></li>
+  <li><a href="/users">Users</a></li>
+  <li><a href="/about">About</a></li>
 </ul>
-
 
 {{{content}}}
 

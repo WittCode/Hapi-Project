@@ -1,5 +1,6 @@
 'use strict'
 
+const Handlebars = require('handlebars');
 const Hapi = require('@hapi/hapi');
 const Path = require('path');
 
@@ -24,8 +25,19 @@ const init = async () => {
     },
     {
         plugin: require('@hapi/inert')
+    },
+    {
+        plugin: require('@hapi/vision')
     }
     ]);
+
+    server.views({
+        engines: {
+            hbs: Handlebars
+        },
+        path: Path.join(__dirname, 'views'),
+        layout: 'default'
+    })
 
     server.route([
         {
@@ -37,6 +49,24 @@ const init = async () => {
                     mode: 'inline',
                     filename: 'welcome_inline.html'
                 });
+            }
+        },
+        {
+            method: 'GET',
+            path: '/welcome',
+            handler: (request, h) => {
+                return h.view('welcome');
+            }
+        },
+        {
+            method: 'GET',
+            path: '/dynamic',
+            handler: (request, h) => {
+                const data = {
+                    name: "Tom",
+                    message: "It is great to have you here!"
+                }
+                return h.view('user', data)
             }
         },
         {

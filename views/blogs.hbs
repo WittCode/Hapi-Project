@@ -1,0 +1,52 @@
+<style>
+
+/*
+This is made so that when you add padding to the item it doesn't increase its size.
+*/
+
+* {
+    -moz-box-sizing: border-box; 
+    -webkit-box-sizing: border-box; 
+     box-sizing: border-box; 
+}
+
+/*A flexible layout must have the parent element with display flex.
+  The direct elements of the flex container become flex items.
+
+  flex-direction: Stacks the flex items vertically.
+  justify-content: align flex items horizontally.
+  align-items: align flex items vertically.
+
+  fixed width outer div allows you to add padding without changing the size.
+
+  If flex direction is set to column, justify content affects vertical alignment
+  and vice versa. So here because flex-direction is column align-items works
+  horizontally.
+*/
+
+.outer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.outer > div {
+    background-color: #f1f1f1;
+    border-radius: 25px;
+    width: 80%;
+    padding-left: 20px;
+    margin-top: 10px;
+    font-size: 30px;
+}
+
+</style>
+
+
+<div class="outer">
+    {{#each this}}
+        <div>
+            <p>{{name}}</p>
+            <p>{{description}}</p>
+        </div>
+    {{/each}}
+</div>

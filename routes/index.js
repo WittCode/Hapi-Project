@@ -1,3 +1,6 @@
+var blogs = [{ name: 'Tom', description: 'I love soccer!'}, 
+{ name: 'Greg', description: 'I love the outdoors!'}];
+
 module.exports = [
 
     {
@@ -8,20 +11,21 @@ module.exports = [
         }
     },
     {
+        method: ['GET', 'POST'],
+        path: '/createBlog',
+        handler: (request, h) => {
+            if (request.payload) {
+                blogs.push({name: request.payload.username, description: request.payload.description});
+                return h.view('blogs', blogs);
+            }
+            return h.view('createBlog');
+        }
+    },
+    {
         method: 'GET',
         path: '/blogs',
         handler: (request, h) => {
-            const blogPosts = [
-                {
-                    name: 'Tom',
-                    description: 'I love soccer!'
-                },
-                {
-                    name: 'Greg',
-                    description: 'I love the outdoors!'
-                }
-            ];
-            return h.view('blogs', blogPosts)
+            return h.view('blogs', blogs)
         }
     },
     {

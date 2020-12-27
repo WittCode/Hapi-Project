@@ -1,50 +1,61 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-body {
-    margin: 0;
-}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: #333;
-}
+  <style>
 
-li {
-  float: left;
-}
+    body {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-li a {
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
+    .flex-container {
+      display: flex;
+      flex-direction: row;
+      padding: 0px;
+      margin: 0px;
+    }
 
-li a:hover:not(.active) {
-  background-color: #111;
-}
+    .active {
+      background-color: #2196F3;
+      color: white;
+    }
 
-.active {
-  background-color: #4CAF50;
-}
-</style>
+    nav {
+      background-color: #e9e9e9;
+      list-style-type: none;
+    }
+
+    a {
+      text-decoration: none;
+      font-size: 20px;
+      color: black;
+      padding: 20px;
+    }
+
+    a:hover:not(.active) {
+      background-color: #ddd;
+      cursor: pointer;
+    }
+
+  </style>
+
 </head>
+
 <body>
 
-<ul>
-  <li><a class="active" href="/">Home</a></li>
-  <li><a href="/me">Me</a></li>
-  <li><a href="/blogs">Blogs</a></li>
-  <li><a href="/about">About</a></li>
-</ul>
+  <nav class="flex-container">
+    <a class="active" href="/">Home</a>
+    <a href="/createBlog">Create Blog</a>
+    <a href="/blogs">Blogs</a>
+  </nav>
 
-{{{content}}}
+  {{{content}}}
+
 
 </body>
+
 </html>

@@ -48,12 +48,37 @@
 <body>
 
   <nav class="flex-container">
-    <a class="active" href="/">Home</a>
-    <a href="/createBlog">Create Blog</a>
-    <a href="/blogs">Blogs</a>
+    <a id="home" class="active" href="/">Home</a>
+    <a id="create-blog" href="/createBlog">Create Blog</a>
+    <a id="blogs" href="/blogs">Blogs</a>
   </nav>
 
   {{{content}}}
+
+  <script>
+
+    // Remove all classes from the navbar.
+    let navElems = document.querySelectorAll("nav a");
+
+    navElems.forEach(element => {
+      element.classList.remove("active");
+    });
+
+    let url = window.location.href;
+    let currentPage = url.split('/').pop();
+
+    // Add current page to active class.
+    if (currentPage === "blogs") {
+      document.getElementById("blogs").classList.add("active");
+    } else if (currentPage === "createBlog") {
+      document.getElementById("create-blog").classList.add("active");
+    } else {
+      document.getElementById("home").classList.add("active");
+    }
+    
+    
+
+  </script>
 
 
 </body>
